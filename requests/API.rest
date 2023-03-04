@@ -1,0 +1,39 @@
+@server_url = http://localhost:3000
+@token = 
+
+##==============
+## USER
+##==============
+
+### Get Users
+GET {{server_url}}/user HTTP/1.1
+
+### Get User
+GET {{server_url}}/user/2 HTTP/1.1
+
+### Create User
+POST {{server_url}}/user HTTP/1.1
+content-type: application/json
+
+{
+  "email": "mah@mail.com",
+  "firstName": "Luiza",
+  "lastName": "Alves",
+  "password": "mah123",
+  "role": "Admin"
+}
+
+### Update User
+PUT {{server_url}}/user/2 HTTP/1.1
+content-type: application/json
+
+{
+  "email": "mah@mail.com",
+  "firstName": "Luiza",
+  "lastName": "Alves da Silva",
+  "password": "@mah123",
+  "role": "Admin"
+}
+
+### Delete User
+DELETE {{server_url}}/user/1 HTTP/1.1
