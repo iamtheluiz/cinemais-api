@@ -76,15 +76,21 @@ model Session {
 }
 
 model City {
-  id       Int     @id @default(autoincrement())
-  cines    Cine[]
-  region   Region? @relation(fields: [regionId], references: [id])
-  regionId Int?
+  id        Int     @id @default(autoincrement())
+  name      String
+  latitude  Decimal
+  longitude Decimal
+  cines     Cine[]
+  region    Region? @relation(fields: [regionId], references: [id])
+  regionId  Int?
 }
 
 model Region {
-  id     Int    @id @default(autoincrement())
-  cities City[]
+  id        Int     @id @default(autoincrement())
+  name      String
+  latitude  Decimal
+  longitude Decimal
+  cities    City[]
 }
 
 // model Post {

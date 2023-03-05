@@ -1,9 +1,13 @@
 @server_url = http://localhost:3000
 @token = 
 
-##==============
+##======================================================================
+## LOGIN
+##======================================================================
+
+##======================================================================
 ## USER
-##==============
+##======================================================================
 
 ### Get Users
 GET {{server_url}}/user HTTP/1.1
@@ -37,3 +41,47 @@ content-type: application/json
 
 ### Delete User
 DELETE {{server_url}}/user/1 HTTP/1.1
+
+##======================================================================
+## City
+##======================================================================
+
+### Get Cities
+GET {{server_url}}/city HTTP/1.1
+
+### Get City
+GET {{server_url}}/city/1 HTTP/1.1
+
+### Create City
+POST {{server_url}}/city HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Mongaguá",
+  "latitude": -24.0892837,
+  "longitude": -46.7086792,
+  "regionId": 1
+}
+
+### Delete City
+DELETE {{server_url}}/city/2 HTTP/1.1
+
+##======================================================================
+## Cine
+##======================================================================
+
+### Get Cines
+GET {{server_url}}/cine HTTP/1.1
+
+### Get Cine
+GET {{server_url}}/cine/1 HTTP/1.1
+
+### Create Cine
+POST {{server_url}}/cine HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Mais Cine",
+  "logo": "logo.png",
+  "cityId": 1
+}

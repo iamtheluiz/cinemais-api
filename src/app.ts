@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import { UserRoutes } from './routes/UserRoutes';
+import { CityRoutes } from './routes/CityRoutes';
+import { CineRoutes } from './routes/CineRoutes';
 
 const app = express();
  
@@ -14,6 +16,8 @@ app.use(helmet());
 app.use(express.json());
 
 app.use(UserRoutes)
+app.use(CityRoutes)
+app.use(CineRoutes)
  
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).send(error.message);
