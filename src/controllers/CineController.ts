@@ -12,11 +12,11 @@ export class CineController {
       }
     })
 
-    response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: cines
-    }).status(200)
+    })
   }
   
   static async getCine(request: Request, response: Response) {
@@ -37,11 +37,11 @@ export class CineController {
 
     if (!cine) throw new Error("Cine not found");
 
-    response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: cine
-    }).status(200)
+    })
   }
 
   static async createCine(request: Request, response: Response) {
@@ -61,7 +61,7 @@ export class CineController {
       }
     })
 
-    response.json({
+    return response.json({
       success: true,
       message: 'Cine created!',
       data: cine

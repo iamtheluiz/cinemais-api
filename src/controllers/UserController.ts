@@ -8,11 +8,11 @@ export class UserController {
   static async getUsers(request: Request, response: Response) {
     const users = await prisma.user.findMany()
 
-    response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: users
-    }).status(200)
+    })
   }
   
   static async getUser(request: Request, response: Response) {
@@ -26,11 +26,11 @@ export class UserController {
 
     if (!user) throw new Error("User not found");
 
-    response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: user
-    }).status(200)
+    })
   }
 
   static async createUser(request: Request, response: Response) {
@@ -54,7 +54,7 @@ export class UserController {
       }
     })
 
-    response.json({
+    return response.json({
       success: true,
       message: 'User created!',
       data: user
@@ -88,7 +88,7 @@ export class UserController {
       where: { id: Number(id) }
     })
 
-    response.json({
+    return response.json({
       success: true,
       message: 'User updated!',
       data: user
@@ -112,7 +112,7 @@ export class UserController {
       id: Number(id)
     }})
 
-    response.json({
+    return response.json({
       success: true,
       message: 'User deleted!',
       data: user

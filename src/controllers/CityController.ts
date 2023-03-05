@@ -12,11 +12,11 @@ export class CityController {
       }
     })
 
-    response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: cities
-    }).status(200)
+    })
   }
   
   static async getCity(request: Request, response: Response) {
@@ -37,11 +37,11 @@ export class CityController {
 
     if (!city) throw new Error("City not found");
 
-    response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: city
-    }).status(200)
+    })
   }
 
   static async createCity(request: Request, response: Response) {
@@ -66,7 +66,7 @@ export class CityController {
       }
     })
 
-    response.json({
+    return response.json({
       success: true,
       message: 'City created!',
       data: city
@@ -95,7 +95,7 @@ export class CityController {
       id: Number(id)
     }})
 
-    response.json({
+    return response.json({
       success: true,
       message: 'City deleted!',
       data: city

@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 
+import { AuthRoutes } from './routes/AuthRoutes';
 import { UserRoutes } from './routes/UserRoutes';
 import { CityRoutes } from './routes/CityRoutes';
 import { CineRoutes } from './routes/CineRoutes';
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
+app.use(AuthRoutes)
 app.use(UserRoutes)
 app.use(CityRoutes)
 app.use(CineRoutes)

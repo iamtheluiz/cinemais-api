@@ -22,33 +22,33 @@ export class AuthController {
     })
 
     if (!user) {
-      return response.json({
+      return response.status(500).json({
         success: false,
         message: 'User not found',
         data: user
-      }).status(500)
+      })
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET!, {
       expiresIn: "7d"
     })
 
-    return response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: {
         token
       }
-    }).status(200)
+    })
   }
   
   static async logout(request: Request, response: Response) {
-    return response.json({
+    return response.status(200).json({
       success: true,
       message: 'Success',
       data: {
         token: null
       }
-    }).status(200)
+    })
   }
 }

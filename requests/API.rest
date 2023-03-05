@@ -1,9 +1,24 @@
 @server_url = http://localhost:3000
-@token = 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MDU3Nzk3LCJleHAiOjE2Nzg2NjI1OTd9.eAZhkoWAtipyizEos4OBsRDh5m5XTk7XTIHK5bBhUNU
 
 ##======================================================================
 ## LOGIN
 ##======================================================================
+
+### Login
+POST {{server_url}}/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "email": "mah@mail.com",
+  "password": "@mah123"
+}
+
+### Logout
+POST {{server_url}}/auth/logout HTTP/1.1
+content-type: application/json
+
+{}
 
 ##======================================================================
 ## USER
@@ -11,13 +26,16 @@
 
 ### Get Users
 GET {{server_url}}/user HTTP/1.1
+Authorization: {{token}}
 
 ### Get User
 GET {{server_url}}/user/2 HTTP/1.1
+Authorization: {{token}}
 
 ### Create User
 POST {{server_url}}/user HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
   "email": "mah@mail.com",
@@ -30,6 +48,7 @@ content-type: application/json
 ### Update User
 PUT {{server_url}}/user/2 HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
   "email": "mah@mail.com",
@@ -41,6 +60,7 @@ content-type: application/json
 
 ### Delete User
 DELETE {{server_url}}/user/1 HTTP/1.1
+Authorization: {{token}}
 
 ##======================================================================
 ## City
@@ -48,13 +68,16 @@ DELETE {{server_url}}/user/1 HTTP/1.1
 
 ### Get Cities
 GET {{server_url}}/city HTTP/1.1
+Authorization: {{token}}
 
 ### Get City
 GET {{server_url}}/city/1 HTTP/1.1
+Authorization: {{token}}
 
 ### Create City
 POST {{server_url}}/city HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
   "name": "Mongaguá",
@@ -65,6 +88,7 @@ content-type: application/json
 
 ### Delete City
 DELETE {{server_url}}/city/2 HTTP/1.1
+Authorization: {{token}}
 
 ##======================================================================
 ## Cine
@@ -72,13 +96,16 @@ DELETE {{server_url}}/city/2 HTTP/1.1
 
 ### Get Cines
 GET {{server_url}}/cine HTTP/1.1
+Authorization: {{token}}
 
 ### Get Cine
 GET {{server_url}}/cine/1 HTTP/1.1
+Authorization: {{token}}
 
 ### Create Cine
 POST {{server_url}}/cine HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
   "name": "Mais Cine",
