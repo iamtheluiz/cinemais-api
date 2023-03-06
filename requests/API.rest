@@ -1,5 +1,5 @@
 @server_url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MDU3Nzk3LCJleHAiOjE2Nzg2NjI1OTd9.eAZhkoWAtipyizEos4OBsRDh5m5XTk7XTIHK5bBhUNU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkNsaWVudCIsImlhdCI6MTY3ODA2MjM2MCwiZXhwIjoxNjc4NjY3MTYwfQ.Yv5yPwPFigVNP8L_ztCq1sdi2KNAhe78a5z5N2Wjzt4
 
 ##======================================================================
 ## LOGIN
@@ -10,7 +10,7 @@ POST {{server_url}}/auth/login HTTP/1.1
 content-type: application/json
 
 {
-  "email": "mah@mail.com",
+  "email": "luh@mail.com",
   "password": "@mah123"
 }
 
@@ -55,7 +55,7 @@ Authorization: {{token}}
   "firstName": "Luiza",
   "lastName": "Alves da Silva",
   "password": "@mah123",
-  "role": "Admin"
+  "role": "Client"
 }
 
 ### Delete User

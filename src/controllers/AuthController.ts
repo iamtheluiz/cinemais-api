@@ -1,45 +1,35 @@
 import { Request, Response } from "express";
-import { PrismaClient } from '@prisma/client'
 import { z } from "zod";
-import jwt from "jsonwebtoken"
-
-const prisma = new PrismaClient()
+import { AuthService } from "../services/AuthService";
 
 export class AuthController {
   static async login(request: Request, response: Response) {
     const loginSchema = z.object({
-      email: z.string(),
+      email: z.string().email(),
       password: z.string()
     })
 
     const { email, password } = loginSchema.parse(request.body)
 
-    const user = await prisma.user.findFirst({
-      where: {
-        email,
-        password
-      }
-    })
+    try {
+      const token = await AuthService.login(email, password)
 
-    if (!user) {
+      return response.status(200).json({
+        success: true,
+        message: 'Success',
+        data: {
+          token
+        }
+      })
+    } catch (error: any) {
       return response.status(500).json({
         success: false,
-        message: 'User not found',
-        data: user
+        message: error.message,
+        data: {
+          email
+        }
       })
     }
-
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET!, {
-      expiresIn: "7d"
-    })
-
-    return response.status(200).json({
-      success: true,
-      message: 'Success',
-      data: {
-        token
-      }
-    })
   }
   
   static async logout(request: Request, response: Response) {
