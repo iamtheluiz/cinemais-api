@@ -6,6 +6,7 @@ import helmet from 'helmet';
 
 import { AuthRoutes } from './routes/AuthRoutes';
 import { UserRoutes } from './routes/UserRoutes';
+import { RegionRoutes } from './routes/RegionRoutes';
 import { CityRoutes } from './routes/CityRoutes';
 import { CineRoutes } from './routes/CineRoutes';
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use(AuthRoutes)
 app.use(UserRoutes)
+app.use(RegionRoutes)
 app.use(CityRoutes)
 app.use(CineRoutes)
  

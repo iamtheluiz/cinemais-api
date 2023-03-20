@@ -1,15 +1,20 @@
 import { Request, Response } from "express";
 import { PrismaClient } from '@prisma/client'
 import { z } from "zod";
+import { paginationSchema } from "./schemas/paginationSchema";
 
 const prisma = new PrismaClient()
 
 export class CityController {
   static async getCities(request: Request, response: Response) {
+    const { page, size } = paginationSchema.parse(request.query)
+
     const cities = await prisma.city.findMany({
       include: {
-        region: true
-      }
+        regions: true
+      },
+      skip: (page - 1) * size,
+      take: size
     })
 
     return response.status(200).json({
@@ -31,7 +36,7 @@ export class CityController {
         id: Number(id)
       },
       include: {
-        region: true
+        regions: true
       }
     })
 
@@ -47,22 +52,26 @@ export class CityController {
   static async createCity(request: Request, response: Response) {
     const createCitySchema = z.object({
       name: z.string(),
-      regionId: z.optional(z.number()),
+      regions: z.array(z.object({
+        id: z.number()
+      })),
       latitude: z.number(),
       longitude: z.number()
     })
 
-    const { name, latitude, longitude, regionId } = createCitySchema.parse(request.body)
+    const { name, latitude, longitude, regions } = createCitySchema.parse(request.body)
 
     const city = await prisma.city.create({
       data: {
         name,
         latitude,
         longitude,
-        regionId
+        regions: {
+          connect: regions
+        }
       },
       include: {
-        region: true
+        regions: true
       }
     })
 
@@ -85,7 +94,7 @@ export class CityController {
         id: Number(id)
       },
       include: {
-        region: true
+        regions: true
       }
     })
 

@@ -1,5 +1,5 @@
 @server_url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkNsaWVudCIsImlhdCI6MTY3ODA2MjM2MCwiZXhwIjoxNjc4NjY3MTYwfQ.Yv5yPwPFigVNP8L_ztCq1sdi2KNAhe78a5z5N2Wjzt4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4NzUwODg2LCJleHAiOjE2NzkzNTU2ODZ9.HIwizeEvF1AFJbMEG-jxy6wFsNmI1mhfVOoEiQ3lXr4
 
 ##======================================================================
 ## LOGIN
@@ -10,7 +10,7 @@ POST {{server_url}}/auth/login HTTP/1.1
 content-type: application/json
 
 {
-  "email": "luh@mail.com",
+  "email": "mah@mail.com",
   "password": "@mah123"
 }
 
@@ -38,10 +38,10 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-  "email": "mah@mail.com",
-  "firstName": "Luiza",
-  "lastName": "Alves",
-  "password": "mah123",
+  "email": "luh@mail.com",
+  "firstName": "Luiz",
+  "lastName": "Vasconcellos",
+  "password": "@luh123",
   "role": "Admin"
 }
 
@@ -55,11 +55,20 @@ Authorization: {{token}}
   "firstName": "Luiza",
   "lastName": "Alves da Silva",
   "password": "@mah123",
-  "role": "Client"
+  "role": "Admin"
 }
 
 ### Delete User
 DELETE {{server_url}}/user/1 HTTP/1.1
+Authorization: {{token}}
+
+##======================================================================
+## Region
+##======================================================================
+
+### Get Regions
+GET {{server_url}}/region
+  ?cities=false
 Authorization: {{token}}
 
 ##======================================================================
@@ -80,10 +89,14 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-  "name": "Mongaguá",
+  "name": "Praia Grande",
   "latitude": -24.0892837,
   "longitude": -46.7086792,
-  "regionId": 1
+  "regions": [
+    {
+      "id": 1
+    }
+  ]
 }
 
 ### Delete City
@@ -99,7 +112,7 @@ GET {{server_url}}/cine HTTP/1.1
 Authorization: {{token}}
 
 ### Get Cine
-GET {{server_url}}/cine/1 HTTP/1.1
+GET {{server_url}}/cine/3 HTTP/1.1
 Authorization: {{token}}
 
 ### Create Cine

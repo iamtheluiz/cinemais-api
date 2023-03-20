@@ -81,8 +81,7 @@ model City {
   latitude  Decimal
   longitude Decimal
   cines     Cine[]
-  region    Region? @relation(fields: [regionId], references: [id])
-  regionId  Int?
+  regions   Region[]
 }
 
 model Region {

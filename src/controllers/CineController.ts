@@ -8,7 +8,11 @@ export class CineController {
   static async getCines(request: Request, response: Response) {
     const cines = await prisma.cine.findMany({
       include: {
-        city: true
+        city: {
+          include: {
+            regions: true
+          }
+        }
       }
     })
 
@@ -31,7 +35,11 @@ export class CineController {
         id: Number(id)
       },
       include: {
-        city: true
+        city: {
+          include: {
+            regions: true
+          }
+        }
       }
     })
 
