@@ -1,20 +1,35 @@
 import { Request, Response } from "express";
 import { PrismaClient } from '@prisma/client'
 import { z } from "zod";
+import { paginationSchema } from "./schemas/paginationSchema";
 
 const prisma = new PrismaClient()
 
 export class UserController {
   static async getUsers(request: Request, response: Response) {
-    const users = await prisma.user.findMany()
+    let { page, size } = paginationSchema.parse(request.query)
+
+    const totalCount = await prisma.user.count()
+    const users = await prisma.user.findMany({
+      skip: (parseInt(page) - 1) * parseInt(size),
+      take: parseInt(size),
+      orderBy: {
+        id: 'asc'
+      }
+    })
 
     return response.status(200).json({
       success: true,
       message: 'Success',
-      data: users
+      data: users,
+      pagination: {
+        totalCount,
+        currentPage: parseInt(page),
+        pageSize: parseInt(size)
+      }
     })
   }
-  
+
   static async getUser(request: Request, response: Response) {
     const getUserParamsSchema = z.object({
       id: z.string()
@@ -22,7 +37,7 @@ export class UserController {
 
     const { id } = getUserParamsSchema.parse(request.params)
 
-    const user = await prisma.user.findUnique({ where: { id: Number(id) }})
+    const user = await prisma.user.findUnique({ where: { id: Number(id) } })
 
     if (!user) throw new Error("User not found");
 
@@ -43,6 +58,12 @@ export class UserController {
     })
 
     const { email, firstName, lastName, password, role } = createUserSchema.parse(request.body)
+
+    const isEmailInUse = await prisma.user.findFirst({ where: { email } }) ? true : false
+    
+    if (isEmailInUse) {
+      throw new Error(`Email '${email}' is in use!`)
+    }
 
     const user = await prisma.user.create({
       data: {
@@ -101,16 +122,20 @@ export class UserController {
     })
 
     const { id } = deleteUserParamsSchema.parse(request.params)
-    
-    const user = await prisma.user.findFirst({ where: {
-      id: Number(id)
-    }})
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: Number(id)
+      }
+    })
 
     if (!user) throw new Error("User not found");
 
-    await prisma.user.delete({ where: {
-      id: Number(id)
-    }})
+    await prisma.user.delete({
+      where: {
+        id: Number(id)
+      }
+    })
 
     return response.json({
       success: true,

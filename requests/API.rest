@@ -1,5 +1,5 @@
 @server_url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4NzUwODg2LCJleHAiOjE2NzkzNTU2ODZ9.HIwizeEvF1AFJbMEG-jxy6wFsNmI1mhfVOoEiQ3lXr4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc5ODQ4MjMyLCJleHAiOjE2ODA0NTMwMzJ9.pk838FY40lwIQON7znhkt8wK3xQlr6pK9U5LkjeVGJE
 
 ##======================================================================
 ## LOGIN
@@ -29,7 +29,7 @@ GET {{server_url}}/user HTTP/1.1
 Authorization: {{token}}
 
 ### Get User
-GET {{server_url}}/user/2 HTTP/1.1
+GET {{server_url}}/user/26 HTTP/1.1
 Authorization: {{token}}
 
 ### Create User
@@ -76,7 +76,9 @@ Authorization: {{token}}
 ##======================================================================
 
 ### Get Cities
-GET {{server_url}}/city HTTP/1.1
+GET {{server_url}}/city
+  ?page=1
+  &size=3
 Authorization: {{token}}
 
 ### Get City

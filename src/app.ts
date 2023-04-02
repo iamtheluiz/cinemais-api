@@ -11,7 +11,7 @@ import { CityRoutes } from './routes/CityRoutes';
 import { CineRoutes } from './routes/CineRoutes';
 
 const app = express();
- 
+
 app.use(morgan('tiny'));
 app.use(cors());
 app.use(helmet());
@@ -22,9 +22,13 @@ app.use(UserRoutes)
 app.use(RegionRoutes)
 app.use(CityRoutes)
 app.use(CineRoutes)
- 
+
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(500).send(error.message);
+    res.status(500).json({
+        success: false,
+        message: error.message ?? 'Unexpected error!',
+        data: error
+    })
 })
- 
+
 export default app;

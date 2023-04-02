@@ -7,20 +7,29 @@ const prisma = new PrismaClient()
 
 export class CityController {
   static async getCities(request: Request, response: Response) {
-    const { page, size } = paginationSchema.parse(request.query)
+    let { page, size } = paginationSchema.parse(request.query)
 
+    const totalCount = await prisma.city.count()
     const cities = await prisma.city.findMany({
       include: {
         regions: true
       },
-      skip: (page - 1) * size,
-      take: size
+      skip: (parseInt(page) - 1) * parseInt(size),
+      take: parseInt(size),
+      orderBy: {
+        id: 'asc'
+      }
     })
 
     return response.status(200).json({
       success: true,
       message: 'Success',
-      data: cities
+      data: cities,
+      pagination: {
+        totalCount,
+        currentPage: parseInt(page),
+        pageSize: parseInt(size)
+      }
     })
   }
   
