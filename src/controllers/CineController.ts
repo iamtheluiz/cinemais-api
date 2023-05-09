@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import { PrismaClient } from '@prisma/client'
 import { z } from "zod";
+import { paginationSchema } from "./schemas/paginationSchema";
 
 const prisma = new PrismaClient()
 
 export class CineController {
   static async getCines(request: Request, response: Response) {
+    let { page, size, all } = paginationSchema.parse(request.query)
+
+    const totalCount = await prisma.cine.count()
     const cines = await prisma.cine.findMany({
       include: {
         city: {
@@ -13,13 +17,22 @@ export class CineController {
             regions: true
           }
         }
+      },
+      ...all !== 'true' && {
+        skip: (parseInt(page) - 1) * parseInt(size),
+        take: parseInt(size),
       }
     })
 
     return response.status(200).json({
       success: true,
       message: 'Success',
-      data: cines
+      data: cines,
+      pagination: {
+        totalCount,
+        currentPage: parseInt(page),
+        pageSize: parseInt(size)
+      }
     })
   }
   

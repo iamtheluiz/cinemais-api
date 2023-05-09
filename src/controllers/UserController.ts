@@ -7,14 +7,16 @@ const prisma = new PrismaClient()
 
 export class UserController {
   static async getUsers(request: Request, response: Response) {
-    let { page, size } = paginationSchema.parse(request.query)
+    let { page, size, all } = paginationSchema.parse(request.query)
 
     const totalCount = await prisma.user.count()
     const users = await prisma.user.findMany({
-      skip: (parseInt(page) - 1) * parseInt(size),
-      take: parseInt(size),
       orderBy: {
         id: 'asc'
+      },
+      ...all !== 'true' && {
+        skip: (parseInt(page) - 1) * parseInt(size),
+        take: parseInt(size),
       }
     })
 

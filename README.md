@@ -7,6 +7,8 @@ Pontos importantes:
   - npx prisma migrate dev --name nome_da_migracao
 * Visualizando o banco:
   - npx prisma studio
+* Aplicar configurações no banco de dados:
+  - npx prisma db push
 * Seed do banco de dados:
   - npx prisma db seed
 
