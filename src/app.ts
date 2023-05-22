@@ -9,6 +9,8 @@ import { UserRoutes } from './routes/UserRoutes';
 import { RegionRoutes } from './routes/RegionRoutes';
 import { CityRoutes } from './routes/CityRoutes';
 import { CineRoutes } from './routes/CineRoutes';
+import { MovieRoutes } from './routes/MovieRoutes';
+import { HomeRoutes } from './routes/HomeRoutes';
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(UserRoutes)
 app.use(RegionRoutes)
 app.use(CityRoutes)
 app.use(CineRoutes)
+app.use(MovieRoutes)
+app.use(HomeRoutes)
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({
