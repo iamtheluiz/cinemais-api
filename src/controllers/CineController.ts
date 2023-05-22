@@ -88,4 +88,30 @@ export class CineController {
       data: cine
     })
   }
+
+  static async deleteCine(request: Request, response: Response) {
+    const deleteCineParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const { id } = deleteCineParamsSchema.parse(request.params)
+    
+    const cine = await prisma.cine.findFirst({
+      where: {
+        id: Number(id)
+      }
+    })
+
+    if (!cine) throw new Error("Cine not found");
+
+    await prisma.cine.delete({ where: {
+      id: Number(id)
+    }})
+
+    return response.json({
+      success: true,
+      message: 'Cine deleted!',
+      data: cine
+    })
+  }
 }

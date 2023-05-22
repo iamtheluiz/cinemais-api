@@ -62,4 +62,30 @@ export class RegionController {
       data: region
     })
   }
+
+  static async deleteRegion(request: Request, response: Response) {
+    const deleteRegionParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const { id } = deleteRegionParamsSchema.parse(request.params)
+    
+    const region = await prisma.region.findFirst({
+      where: {
+        id: Number(id)
+      }
+    })
+
+    if (!region) throw new Error("Region not found");
+
+    await prisma.region.delete({ where: {
+      id: Number(id)
+    }})
+
+    return response.json({
+      success: true,
+      message: 'Region deleted!',
+      data: region
+    })
+  }
 }
