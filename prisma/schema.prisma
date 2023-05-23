@@ -37,7 +37,7 @@ model Movie {
   duration Decimal
   genres   Genre[]
   sessions Session[]
-  cast     MovieCast[]
+  cast     Cast[]
 }
 
 model Genre {
@@ -51,18 +51,29 @@ model Cast {
   name    String
   picture String
   bio     String
-  movies  MovieCast[]
+  movies  Movie[]
 }
 
-model MovieCast {
-  id        Int     @id @default(autoincrement())
-  role      String
-  character String?
-  movie     Movie   @relation(fields: [movieId], references: [id])
-  cast      Cast    @relation(fields: [castId], references: [id])
-  movieId   Int
-  castId    Int
-}
+// =================
+// Cast Backup
+// model Cast {
+//   id      Int         @id @default(autoincrement())
+//   name    String
+//   picture String
+//   bio     String
+//   movies  MovieCast[]
+// }
+
+// model MovieCast {
+//   id        Int     @id @default(autoincrement())
+//   role      String
+//   character String?
+//   movie     Movie   @relation(fields: [movieId], references: [id])
+//   cast      Cast    @relation(fields: [castId], references: [id])
+//   movieId   Int
+//   castId    Int
+// }
+// =================
 
 model Session {
   id        Int      @id @default(autoincrement())

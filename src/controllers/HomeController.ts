@@ -8,6 +8,10 @@ export class HomeController {
     const userCount = await prisma.user.count();
     const movieCount = await prisma.movie.count();
     const cineCount = await prisma.cine.count();
+    const castCount = await prisma.cast.count();
+    const genreCount = await prisma.genre.count();
+    const cityCount = await prisma.city.count();
+    const regionCount = await prisma.region.count();
 
     return response.status(200).json({
       success: true,
@@ -15,6 +19,10 @@ export class HomeController {
       data: {
         userCount,
         movieCount,
+        castCount,
+        genreCount,
+        cityCount,
+        regionCount,
         cineCount
       }
     })
