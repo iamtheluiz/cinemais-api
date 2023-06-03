@@ -17,6 +17,9 @@ export class GenreController {
       ...all !== 'true' && {
         skip: (parseInt(page) - 1) * parseInt(size),
         take: parseInt(size),
+      },
+      orderBy: {
+        name: 'asc'
       }
     })
 

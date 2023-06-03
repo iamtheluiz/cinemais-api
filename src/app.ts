@@ -13,6 +13,7 @@ import { MovieRoutes } from './routes/MovieRoutes';
 import { HomeRoutes } from './routes/HomeRoutes';
 import { GenreRoutes } from './routes/GenreRoutes';
 import { CastRoutes } from './routes/CastRoutes';
+import { SessionRoutes } from './routes/SessionRoutes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(MovieRoutes)
 app.use(HomeRoutes)
 app.use(GenreRoutes)
 app.use(CastRoutes)
+app.use(SessionRoutes)
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({

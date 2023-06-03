@@ -114,4 +114,30 @@ export class CineController {
       data: cine
     })
   }
+
+  static async openMovies(request: Request, response: Response) {
+    const deleteCineParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const { id } = deleteCineParamsSchema.parse(request.params)
+    
+    const sessions = await prisma.session.findMany({
+      include: {
+        movie: true
+      },
+      where: {
+        cineId: Number(id),
+        startDate: {
+          gt: new Date()
+        }
+      },
+    })
+
+    return response.json({
+      success: true,
+      message: 'Success!',
+      data: sessions
+    })
+  }
 }
