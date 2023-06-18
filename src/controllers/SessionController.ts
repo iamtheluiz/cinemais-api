@@ -8,19 +8,34 @@ export class SessionController {
   static async getSessions(request: Request, response: Response) {
     const getSessionsRouteSchema = z.object({
       id: z.string()
-    })  
+    })
     const getSessionsParamsSchema = z.object({
-      date: z.string()
+      date: z.string(),
+      startDate: z.string().optional(),
+      endDate: z.string().optional()
     })
 
     const { id } = getSessionsRouteSchema.parse(request.params)
-    let { date } = getSessionsParamsSchema.parse(request.query)
+    let { date, startDate, endDate } = getSessionsParamsSchema.parse(request.query)
 
     const filteredDate = new Date(date);
     const day = filteredDate.getDate();
     let month = `${filteredDate.getMonth() + 1}`;
-    month = month.length < 2 ? `0${month}` : month; 
+    month = month.length < 2 ? `0${month}` : month;
     const year = filteredDate.getFullYear();
+
+    let filteredStartDate = new Date()
+    let filteredEndDate = new Date()
+
+    if (startDate && endDate) {
+      filteredStartDate = new Date(startDate);
+      filteredEndDate = new Date(endDate);
+    } else {
+      filteredStartDate = new Date(`${year}-${month}-${day}`)
+      filteredEndDate = new Date(`${year}-${month}-${day + 1}`)
+    }
+
+    console.log(filteredStartDate, filteredEndDate)
 
     const sessions = await prisma.session.findMany({
       include: {
@@ -30,10 +45,10 @@ export class SessionController {
       where: {
         AND: {
           startDate: {
-            gte: new Date(`${year}-${month}-${day}`),
+            gte: filteredStartDate,
           },
           endDate: {
-            lt: new Date(`${year}-${month}-${day + 1}`),
+            lt: filteredEndDate,
           },
           cineId: parseInt(id)
         },
@@ -44,12 +59,10 @@ export class SessionController {
       success: true,
       message: 'Success',
       data: sessions,
-      pagination: {
-        date: new Date(date)
-      }
+      pagination: {}
     })
   }
-  
+
   static async getSession(request: Request, response: Response) {
     const getSessionParamsSchema = z.object({
       id: z.string()
@@ -79,8 +92,8 @@ export class SessionController {
   static async createSession(request: Request, response: Response) {
     const createSessionSchema = z.object({
       room: z.string(),
-      startDate: z.date(),
-      endDate: z.date(),
+      startDate: z.string(),
+      endDate: z.string(),
       cineId: z.number(),
       movieId: z.number()
     })
@@ -90,8 +103,8 @@ export class SessionController {
     const session = await prisma.session.create({
       data: {
         room,
-        startDate,
-        endDate,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
         cineId,
         movieId
       }
@@ -110,7 +123,7 @@ export class SessionController {
     })
 
     const { id } = deleteSessionParamsSchema.parse(request.params)
-    
+
     const session = await prisma.session.findFirst({
       where: {
         id: Number(id)
@@ -119,9 +132,11 @@ export class SessionController {
 
     if (!session) throw new Error("Session not found");
 
-    await prisma.session.delete({ where: {
-      id: Number(id)
-    }})
+    await prisma.session.delete({
+      where: {
+        id: Number(id)
+      }
+    })
 
     return response.json({
       success: true,
