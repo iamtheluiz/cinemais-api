@@ -12,13 +12,14 @@ export class AuthController {
     const { email, password } = loginSchema.parse(request.body)
 
     try {
-      const token = await AuthService.login(email, password)
+      const { token, role } = await AuthService.login(email, password)
 
       return response.status(200).json({
         success: true,
         message: 'Success',
         data: {
-          token
+          token,
+          role
         }
       })
     } catch (error: any) {

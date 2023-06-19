@@ -20,6 +20,6 @@ export class AuthService {
       expiresIn: "7d"
     })
 
-    return token
+    return { token, role: user.role }
   }
 }
