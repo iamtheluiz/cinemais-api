@@ -133,6 +133,10 @@ export class UserController {
 
     if (!user) throw new Error("User not found");
 
+    if (user.email === 'admin@admin.com') {
+      throw new Error("You cannot delete the admin user!");
+    }
+
     await prisma.user.delete({
       where: {
         id: Number(id)
