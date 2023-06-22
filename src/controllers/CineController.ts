@@ -152,6 +152,42 @@ export class CineController {
     })
   }
 
+  static async updateCine(request: Request, response: Response) {
+    const updateCineParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const updateCineSchema = z.object({
+      name: z.string(),
+      logo: z.string(),
+      latitude: z.number(),
+      longitude: z.number(),
+      cityId: z.number()
+    })
+
+    const { id } = updateCineParamsSchema.parse(request.params)
+    const { name, logo, latitude, longitude, cityId } = updateCineSchema.parse(request.body)
+
+    const cine = await prisma.cine.update({
+      data: {
+        name,
+        logo,
+        latitude,
+        longitude,
+        cityId
+      },
+      where: {
+        id: Number(id)
+      }
+    })
+
+    return response.json({
+      success: true,
+      message: 'Cine updated!',
+      data: cine
+    })
+  }
+
   static async deleteCine(request: Request, response: Response) {
     const deleteCineParamsSchema = z.object({
       id: z.string()

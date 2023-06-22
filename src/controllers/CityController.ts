@@ -34,7 +34,7 @@ export class CityController {
       }
     })
   }
-  
+
   static async getCity(request: Request, response: Response) {
     const getCityParamsSchema = z.object({
       id: z.string()
@@ -93,13 +93,56 @@ export class CityController {
     })
   }
 
+  static async updateCity(request: Request, response: Response) {
+    const getCityParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const createCitySchema = z.object({
+      name: z.string(),
+      regions: z.array(z.object({
+        id: z.number()
+      })),
+      latitude: z.number(),
+      longitude: z.number()
+    })
+
+    const { id } = getCityParamsSchema.parse(request.params)
+    const { name, latitude, longitude, regions } = createCitySchema.parse(request.body)
+
+    console.log(regions)
+
+    const city = await prisma.city.update({
+      data: {
+        name,
+        latitude,
+        longitude,
+        regions: {
+          set: regions
+        }
+      },
+      include: {
+        regions: true
+      },
+      where: {
+        id: Number(id)
+      }
+    })
+
+    return response.json({
+      success: true,
+      message: 'City updated!',
+      data: city
+    })
+  }
+
   static async deleteCity(request: Request, response: Response) {
     const deleteCityParamsSchema = z.object({
       id: z.string()
     })
 
     const { id } = deleteCityParamsSchema.parse(request.params)
-    
+
     const city = await prisma.city.findFirst({
       where: {
         id: Number(id)
@@ -111,9 +154,11 @@ export class CityController {
 
     if (!city) throw new Error("City not found");
 
-    await prisma.city.delete({ where: {
-      id: Number(id)
-    }})
+    await prisma.city.delete({
+      where: {
+        id: Number(id)
+      }
+    })
 
     return response.json({
       success: true,

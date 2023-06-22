@@ -84,6 +84,38 @@ export class CastController {
     })
   }
 
+  static async updateCast(request: Request, response: Response) {
+    const updateGenreParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const updateCastSchema = z.object({
+      name: z.string(),
+      bio: z.string(),
+      picture: z.string()
+    })
+
+    const { id } = updateGenreParamsSchema.parse(request.params)
+    const { name, bio, picture } = updateCastSchema.parse(request.body)
+
+    const cast = await prisma.cast.update({
+      data: {
+        name,
+        bio,
+        picture
+      },
+      where: {
+        id: Number(id)
+      }
+    })
+
+    return response.json({
+      success: true,
+      message: 'Cast updated!',
+      data: cast
+    })
+  }
+
   static async deleteCast(request: Request, response: Response) {
     const deleteCastParamsSchema = z.object({
       id: z.string()

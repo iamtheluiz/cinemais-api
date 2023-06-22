@@ -82,6 +82,36 @@ export class GenreController {
     })
   }
 
+  static async updateGenre(request: Request, response: Response) {
+    const updateGenreParamsSchema = z.object({
+      id: z.string()
+    })
+    
+    const updateGenreSchema = z.object({
+      name: z.string(),
+      color: z.string()
+    })
+
+    const { id } = updateGenreParamsSchema.parse(request.params)
+    const { name, color } = updateGenreSchema.parse(request.body)
+
+    const genre = await prisma.genre.update({
+      data: {
+        name,
+        color
+      },
+      where: {
+        id: Number(id)
+      }
+    })
+
+    return response.json({
+      success: true,
+      message: 'Genre updated!',
+      data: genre
+    })
+  }
+
   static async deleteGenre(request: Request, response: Response) {
     const deleteGenreParamsSchema = z.object({
       id: z.string()

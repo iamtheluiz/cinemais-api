@@ -63,6 +63,38 @@ export class RegionController {
     })
   }
 
+  static async updateRegion(request: Request, response: Response) {
+    const updateRegionParamsSchema = z.object({
+      id: z.string()
+    })
+
+    const createRegionSchema = z.object({
+      name: z.string(),
+      latitude: z.number(),
+      longitude: z.number()
+    })
+
+    const { id } = updateRegionParamsSchema.parse(request.params)
+    const { name, latitude, longitude } = createRegionSchema.parse(request.body)
+
+    const region = await prisma.region.update({
+      data: {
+        name,
+        latitude,
+        longitude
+      },
+      where: {
+        id: Number(id)
+      }
+    })
+
+    return response.json({
+      success: true,
+      message: 'Region update!',
+      data: region
+    })
+  }
+
   static async deleteRegion(request: Request, response: Response) {
     const deleteRegionParamsSchema = z.object({
       id: z.string()
