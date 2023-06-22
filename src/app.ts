@@ -18,7 +18,9 @@ import { SessionRoutes } from './routes/SessionRoutes';
 const app = express();
 
 app.use(morgan('tiny'));
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 app.use(helmet());
 app.use(express.json());
 

@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
@@ -20,16 +21,19 @@ model User {
 }
 
 model Cine {
-  id      Int       @id @default(autoincrement())
-  name    String
-  logo    String
-  city    City      @relation(fields: [cityId], references: [id])
-  cityId  Int
-  session Session[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  logo      String
+  latitude  Decimal   @default(-23.9781355)
+  longitude Decimal   @default(-46.308471)
+  city      City      @relation(fields: [cityId], references: [id])
+  cityId    Int
+  session   Session[]
+  distance  Float?
 }
 
 model Movie {
-  id       Int         @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
   synopsis String
   trailer  String
@@ -43,11 +47,12 @@ model Movie {
 model Genre {
   id     Int     @id @default(autoincrement())
   name   String
+  color  String  @default("#000000")
   movies Movie[]
 }
 
 model Cast {
-  id      Int         @id @default(autoincrement())
+  id      Int     @id @default(autoincrement())
   name    String
   picture String
   bio     String
@@ -87,7 +92,7 @@ model Session {
 }
 
 model City {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
   latitude  Decimal
   longitude Decimal

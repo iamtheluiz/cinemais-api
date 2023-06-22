@@ -62,14 +62,16 @@ export class GenreController {
 
   static async createGenre(request: Request, response: Response) {
     const createGenreSchema = z.object({
-      name: z.string()
+      name: z.string(),
+      color: z.string()
     })
 
-    const { name } = createGenreSchema.parse(request.body)
+    const { name, color } = createGenreSchema.parse(request.body)
 
     const genre = await prisma.genre.create({
       data: {
-        name
+        name,
+        color
       }
     })
 

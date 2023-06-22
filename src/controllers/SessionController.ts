@@ -35,8 +35,6 @@ export class SessionController {
       filteredEndDate = new Date(`${year}-${month}-${day + 1}`)
     }
 
-    console.log(filteredStartDate, filteredEndDate)
-
     const sessions = await prisma.session.findMany({
       include: {
         cine: true,
