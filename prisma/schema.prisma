@@ -26,7 +26,7 @@ model Cine {
   logo      String
   latitude  Decimal   @default(-23.9781355)
   longitude Decimal   @default(-46.308471)
-  city      City      @relation(fields: [cityId], references: [id])
+  city      City      @relation(fields: [cityId], references: [id], onDelete: Cascade)
   cityId    Int
   session   Session[]
   distance  Float?
@@ -85,8 +85,8 @@ model Session {
   room      String
   startDate DateTime
   endDate   DateTime
-  cine      Cine     @relation(fields: [cineId], references: [id])
-  movie     Movie    @relation(fields: [movieId], references: [id])
+  cine      Cine     @relation(fields: [cineId], references: [id], onDelete: Cascade)
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
   movieId   Int
   cineId    Int
 }
